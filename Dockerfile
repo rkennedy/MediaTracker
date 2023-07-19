@@ -81,16 +81,9 @@ COPY --from=build /app/server/build build
 COPY --from=server-build-production /server/node_modules node_modules
 
 COPY server/package.json ./
-COPY docker/entrypoint.sh /docker/entrypoint.sh
 
 ENV PORT=7481
 EXPOSE $PORT
-
-ENV PUID=1000
-ENV PGID=1000
-
-RUN groupadd --non-unique --gid 1000 abc
-RUN useradd --non-unique --create-home --uid 1000 --gid abc abc
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl ${HOSTNAME}:${PORT}
 
@@ -99,4 +92,4 @@ ENV ASSETS_PATH="/assets"
 ENV LOGS_PATH="/logs"
 ENV NODE_ENV=production
 
-ENTRYPOINT  ["sh", "/docker/entrypoint.sh"]
+ENTRYPOINT  ["node", "/app/build/index.js"]
