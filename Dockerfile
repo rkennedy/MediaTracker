@@ -61,13 +61,10 @@ FROM alpine-libvips
 
 RUN apk add --no-cache curl shadow
 
-WORKDIR /storage
 VOLUME /storage
 
-WORKDIR /assets
 VOLUME /assets
 
-WORKDIR /logs
 VOLUME /logs
 
 WORKDIR /app
