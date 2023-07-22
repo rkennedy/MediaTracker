@@ -1,4 +1,4 @@
-import { join, resolve } from 'path';
+import { dirname, join, resolve } from 'path';
 import { homedir } from 'os';
 import { ensureDirSync, existsSync, moveSync, statSync } from 'fs-extra';
 import { version } from '../package.json';
@@ -92,26 +92,37 @@ export class Config {
   }
 
   static migrate() {
-    if (!existsSync(this.configDirectory)) {
+    if (!existsSync(dirname(this.ASSETS_PATH))) {
       logs.push(
-        `Creating config directory at ${this.configDirectory.toString()}`
+        `Creating config directory at ${dirname(this.ASSETS_PATH)}`
       );
-      ensureDirSync(this.configDirectory);
-
+      ensureDirSync(dirname(this.ASSETS_PATH));
       migratePath({
         key: 'ASSETS_PATH',
         type: 'directory',
         oldPath: resolve('img'),
         newPath: this.ASSETS_PATH,
       });
+    }
 
+    if (!existsSync(dirname(this.LOGS_PATH))) {
+      logs.push(
+        `Creating config directory at ${dirname(this.LOGS_PATH)}`
+      );
+      ensureDirSync(dirname(this.LOGS_PATH));
       migratePath({
         key: 'LOGS_PATH',
         type: 'directory',
         oldPath: resolve('logs'),
         newPath: this.LOGS_PATH,
       });
+    }
 
+    if (!existsSync(dirname(this.DATABASE_PATH))) {
+      logs.push(
+        `Creating config directory at ${dirname(this.DATABASE_PATH)}`
+      );
+      ensureDirSync(dirname(this.DATABASE_PATH));
       migratePath({
         key: 'DATABASE_PATH',
         type: 'file',
