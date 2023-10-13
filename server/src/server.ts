@@ -141,7 +141,6 @@ export class Server {
     await new Promise<void>((resolve, reject) => {
       this.#server = this.#app.listen(
         this.#config.port,
-        this.#config.hostname,
         async () => {
           try {
             const address = `http://${this.#config.hostname}:${
